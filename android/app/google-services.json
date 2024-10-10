@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "596445476561",
+    "project_id": "compareit1-2f849",
+    "storage_bucket": "compareit1-2f849.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596445476561:android:1e9fc96f7492d92b5df7f0",
+        "android_client_info": {
+          "package_name": "com.example.compareit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZngPPaxpxSGSuma6aWLhigCgRgEynFC0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596445476561:android:cb48dd3726231f4b5df7f0",
+        "android_client_info": {
+          "package_name": "com.example.firebase_auth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZngPPaxpxSGSuma6aWLhigCgRgEynFC0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
