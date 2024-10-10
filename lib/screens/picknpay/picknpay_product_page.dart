@@ -48,12 +48,14 @@ class _PickNPayProductPageState extends State<PickNPayProductPage> {
                   return BlocProvider(
                     create: (context) => GetProductBloc(FirebaseProductRepo())
                       ..add(GetProduct()),
-                    child: PickNPayProductList(),
+                    child: const PickNPayProductList(),
                   ); // Update to not pass products directly
                 } else if (state is GetProductLoading) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is GetProductFailure) {
-                  return Center(child: Text("An error occurred"));
+                  return Center(
+                    child: Text(state.message),
+                  );
                 }
 
                 return Container(); // Default case

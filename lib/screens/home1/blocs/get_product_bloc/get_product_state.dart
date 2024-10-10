@@ -9,7 +9,13 @@ sealed class GetProductState extends Equatable {
 
 final class GetProductInitial extends GetProductState {}
 
-final class GetProductFailure extends GetProductState {}
+final class GetProductFailure extends GetProductState {
+  final String message;
+  const GetProductFailure({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
 
 final class GetProductLoading extends GetProductState {}
 

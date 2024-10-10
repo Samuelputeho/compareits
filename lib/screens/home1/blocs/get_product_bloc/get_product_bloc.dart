@@ -14,7 +14,7 @@ class GetProductBloc extends Bloc<GetProductEvent, GetProductState> {
         List<Product> products = await _productRepo.getProducts();
         emit(GetProductSuccess(products));
       } catch (e) {
-        emit(GetProductFailure());
+        emit(GetProductFailure(message: e.toString()));
       }
     });
   }
