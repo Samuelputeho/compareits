@@ -8,10 +8,17 @@ part 'get_product_state.dart';
 
 class GetProductBloc extends Bloc<GetProductEvent, GetProductState> {
   final ProductRepo _productRepo;
+
   GetProductBloc(this._productRepo) : super(GetProductInitial()) {
-    on<GetProductEvent>((event, emit) async {
+    on<GetProduct>((event, emit) async {
+      emit(GetProductLoading());
       try {
-        List<Product> products = await _productRepo.getProducts();
+        // Fetch products with store, category, and search query filters
+        List<Product> products = await _productRepo.getProducts(
+          store: event.store,
+          category: event.category,
+          searchQuery: event.searchQuery, // Use the search query
+        );
         emit(GetProductSuccess(products));
       } catch (e) {
         emit(GetProductFailure(message: e.toString()));

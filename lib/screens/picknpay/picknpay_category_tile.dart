@@ -7,12 +7,15 @@ import 'picknpay_product_page.dart';
 
 class CategoryTile extends StatelessWidget {
   final String catName;
-  final String imageUrl; // This will now be the asset path
+  final String imageUrl;
+  final String storeName;
 
-  const CategoryTile(
-      {super.key,
-      required this.catName,
-      required this.imageUrl}); // Update constructor
+  const CategoryTile({
+    Key? key,
+    required this.catName,
+    required this.imageUrl,
+    required this.storeName,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +25,10 @@ class CategoryTile extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) =>
-                  GetProductBloc(FirebaseProductRepo())..add(GetProduct()),
+              create: (context) => GetProductBloc(FirebaseProductRepo())
+                ..add(GetProduct(
+                    category: catName,
+                    store: storeName)), // Pass the selected category and store
               child: PickNPayProductPage(categoryName: catName),
             ),
           ),
@@ -35,17 +40,15 @@ class CategoryTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
-          // Change to Column to include image
           children: [
             Container(
-                height: MediaQuery.of(context).size.width * 0.3,
-                width: MediaQuery.of(context).size.width * 0.3,
-                child: Image.asset(imageUrl, fit: BoxFit.contain)),
-            Spacer(),
+              height: MediaQuery.of(context).size.width * 0.3,
+              width: MediaQuery.of(context).size.width * 0.3,
+              child: Image.asset(imageUrl, fit: BoxFit.contain),
+            ),
+            const Spacer(),
             Center(child: Text(catName)),
-            const SizedBox(
-              height: 8,
-            )
+            const SizedBox(height: 8),
           ],
         ),
       ),

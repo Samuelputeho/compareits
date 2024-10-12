@@ -90,6 +90,7 @@ class GenericCategoryPage extends StatelessWidget {
             return CategoryTile(
               catName: categories[index]['name']!,
               imageUrl: categories[index]['imageUrl']!,
+              storeName: storeName, // Pass the store name here
             );
           },
         ),

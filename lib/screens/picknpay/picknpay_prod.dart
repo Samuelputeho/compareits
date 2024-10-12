@@ -26,9 +26,7 @@ class PickNPayProductList extends StatelessWidget {
             ),
             itemCount: state.products.length,
             itemBuilder: (context, int i) {
-              // Use products from state
-              final Product product =
-                  state.products[i]; // Ensure it's of type Product
+              final Product product = state.products[i];
 
               return InkWell(
                 onTap: () {
@@ -41,8 +39,7 @@ class PickNPayProductList extends StatelessWidget {
                   );
                 },
                 child: PickNpayProductTile(
-                  imageUrl: product
-                      .picture, // Make sure this field matches your model
+                  imageUrl: product.picture,
                   productName: product.name,
                   price: product.price,
                 ),
@@ -55,8 +52,7 @@ class PickNPayProductList extends StatelessWidget {
           return Center(child: Text("An error occurred"));
         }
 
-        // Default case to return an empty container
-        return Container();
+        return Container(); // Default case
       },
     );
   }
