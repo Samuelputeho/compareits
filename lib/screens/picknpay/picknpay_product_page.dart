@@ -18,7 +18,16 @@ class PickNPayProductPage extends StatefulWidget {
 class _PickNPayProductPageState extends State<PickNPayProductPage> {
   // Define filter options for each category
   final Map<String, List<String>> categoryFilters = {
-    'Grains and Pasta': ['All', 'Rice', 'Pasta', 'Macaroni'],
+    'Grains and Pasta': [
+      'All',
+      'Rice',
+      'Pasta',
+      'Macaroni',
+      'MaizeMeal',
+      'Soup,',
+      'Noodles'
+    ],
+    'Fruits and Vegetables': ['All', 'Fresh Fruits', 'Fresh Vegetables'],
     'Dairy Products': ['All', 'Milk', 'Cheese', 'Yogurt'],
     // Add more categories and their filters as needed
   };
@@ -56,7 +65,8 @@ class _PickNPayProductPageState extends State<PickNPayProductPage> {
         children: [
           // Horizontal scrollable list of filter options
           Container(
-            height: 60, // Set a height for the filter options
+            height: MediaQuery.of(context).size.height *
+                0.05, // Set a height for the filter options
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: categoryFilters[widget.categoryName]?.length ?? 0,
@@ -68,16 +78,21 @@ class _PickNPayProductPageState extends State<PickNPayProductPage> {
                     filterProducts(filterOption); // Filter products on tap
                   },
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                    padding: const EdgeInsets.all(16.0),
+                    margin: const EdgeInsets.all(3.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 3.0), // Adjust the padding as needed(5.0),
                     decoration: BoxDecoration(
-                      color: Colors.blueAccent,
-                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: Center(
                       child: Text(
                         filterOption,
-                        style: const TextStyle(color: Colors.white),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                            color: Colors.white),
                       ),
                     ),
                   ),

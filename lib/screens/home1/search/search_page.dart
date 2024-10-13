@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:product_repository/product_repository.dart';
 
+import '../blocs/get_product_bloc/get_product_bloc.dart';
 import 'searched_page.dart';
+// Import your product repository
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -11,39 +15,64 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
-  final List<String> _recentSearches = ["Cooking Oil", "Bread", "Top Score"];
-  final List<String> _suggestions = [
-    "Sunflower Cooking Oil",
-    "Olive Oil",
-    "Brown Bread",
-    "Cheap Oil",
-    "White Bread",
-    "Vita Juice"
-  ];
-
+  final List<String> _recentSearches = [];
+  List<Product> _products = []; // List to hold products fetched from Firebase
   List<String> _filteredSuggestions = [];
 
   @override
   void initState() {
     super.initState();
     _searchController.addListener(_updateSuggestions);
-    _filteredSuggestions = _suggestions; // Initial suggestions
+    _fetchProducts(); // Fetch products from Firebase
+  }
+
+  void _fetchProducts() async {
+    // Fetch products from your repository or BLoC
+    final productBloc = context.read<GetProductBloc>();
+    productBloc.add(GetProduct()); // Trigger the event to fetch products
+
+    // Listen for the state changes to get the products
+    productBloc.stream.listen((state) {
+      if (state is GetProductSuccess) {
+        setState(() {
+          _products = state.products; // Update the products list
+          _filteredSuggestions = _products
+              .map((product) => product.name)
+              .toList(); // Initialize suggestions
+        });
+      } else if (state is GetProductFailure) {
+        // Handle failure case
+        print('Failed to fetch products: ${state.message}');
+      }
+    });
   }
 
   void _updateSuggestions() {
     final query = _searchController.text.toLowerCase();
     setState(() {
-      _filteredSuggestions = _suggestions
-          .where((suggestion) => suggestion.toLowerCase().contains(query))
+      _filteredSuggestions = _products
+          .where((product) => product.name.toLowerCase().contains(query))
+          .map((product) => product.name) // Get the product names
           .toList();
     });
   }
 
   void _navigateToSearchedPage(String query) {
+    // Check if the query is not empty and not already in recent searches
+    if (query.isNotEmpty && !_recentSearches.contains(query)) {
+      setState(() {
+        _recentSearches.add(query); // Add the query to recent searches
+      });
+    }
+
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SearchedPage(searchQuery: query),
+        builder: (context) => BlocProvider(
+          create: (context) =>
+              GetProductBloc(FirebaseProductRepo()), // Provide the BLoC here
+          child: SearchedPage(searchQuery: query), // Pass the search query
+        ),
       ),
     );
   }
@@ -69,7 +98,9 @@ class _SearchPageState extends State<SearchPage> {
                 prefixIcon: IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {
-                    _navigateToSearchedPage(_searchController.text);
+                    if (_searchController.text.isNotEmpty) {
+                      _navigateToSearchedPage(_searchController.text);
+                    }
                   },
                 ),
                 hintText: 'Search for your product',
